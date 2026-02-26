@@ -1,0 +1,24 @@
+useeffect is used to handle side effect in react components
+
+
+
+what are the side effects
+
+
+anything that happend outside the normal render flow of react, like 
+
+API call (fethc data)
+Dom manipulation
+Updating document title
+
+
+useEffect(()=>{
+    side effect code
+}, [dependency])
+
+1 callback function (what to run)
+2 dependency  array (when to run )
+
+
+
+
