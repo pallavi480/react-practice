@@ -1,0 +1,27 @@
+.app {
+  width: 400px;
+  margin: 100px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+}
+
+button {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
