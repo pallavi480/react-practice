@@ -1,25 +1,29 @@
-import { useRef, useContext } from "react";
-import { NotesContext } from "../context/NotesContext";
+import React, { useState } from "react";
 
-function NoteForm() {
+function NoteForm({ addNote }) {
 
-    const inputRef = useRef();
-    const {addNote} = useContext(NotesContext)
+  const [input, setInput] = useState("");
 
-    const handleAdd = () =>{
-        const text = inputRef.current.value;
-        if (text.trim()) return
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        addNote(text);
-        inputRef.current.value = "";
-    }
+    if (!input.trim()) return;
 
-    return (
-        <div>
-            <input ref={inputRef} type="text" placeholder="Enter note..." />
-            <button onClick={handleAdd}>Add Note</button>
-        </div>
-    )
+    addNote(input);
+    setInput("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        placeholder="Write note..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+
+      <button type="submit">Add Note</button>
+    </form>
+  );
 }
 
 export default NoteForm;

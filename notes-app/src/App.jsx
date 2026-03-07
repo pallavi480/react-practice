@@ -1,29 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NoteForm from "./components/NoteForm";
 import NoteList from "./components/NoteList";
-import { NotesContext } from "./context/NotesContext";
-import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
-  const [notes, setNotes] = useLocalStorage("notes",[])
 
-  const addNote = (text) =>{
-    setNotes([...notes, {id: Date.now(), text}])
-  }
+  const [notes, setNotes] = useState(() => {
+    const saved = localStorage.getItem("notes");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
+  const addNote = (text) => {
+    setNotes([...notes, { id: Date.now(), text }]);
+  };
 
   const deleteNote = (id) => {
-    setNotes(notes.filter((note)=> note.id !== id))
-  }
-  return (
-    <NotesContext.Provider value = {{notes, addNote, deleteNote}}>
-      <div>
-        <h1>Notes App</h1>
-        <NoteForm />
-        <NoteList />
-      </div>
-    </NotesContext.Provider>
+    setNotes(notes.filter((note) => note.id !== id));
+  };
 
-  )
+  const editNote = (id, newText) => {
+    setNotes(
+      notes.map((note) =>
+        note.id === id ? { ...note, text: newText } : note
+      )
+    );
+  };
+
+  return (
+    <div>
+      <h1>Notes App</h1>
+
+      <NoteForm addNote={addNote} />
+
+      <NoteList
+        notes={notes}
+        deleteNote={deleteNote}
+        editNote={editNote}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
